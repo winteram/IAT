@@ -1,0 +1,79 @@
+body {
+    background:none repeat scroll 0 0 #FFFFFF;
+    border:0 none;
+}
+
+#instructions
+{
+    width: 800px;
+}
+
+#experiment_frame
+{
+    margin-left: auto;
+    margin-right: auto;
+    width:500px;
+    height: 500px;
+    border: solid black 1px;
+}
+
+#header
+{
+	height: 120px;
+}
+
+#left_cat
+{
+	font-size: 1.5em;
+	margin: 15px;
+	float: left;
+}
+
+#right_cat
+{
+	font-size: 1.5em;
+	margin: 15px;
+	float: right;
+}
+
+#exp_instruct
+{
+    margin: 15px;
+}
+
+#under_instruct
+{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    width: 600px;
+}
+
+.itemdiv
+{
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.IATitem
+{
+	font-size: 1.5em;
+	margin-left: auto;
+	margin-right: auto;
+	height: 200px;
+	display: none;
+}
+
+#word {
+	width: 100px;
+	max-height: 115px;
+	text-align: center;
+	padding-top: 85px;
+}
+#wrong
+{
+	margin-left: auto;
+	margin-right: auto;
+	height: 80px;
+	display: none;
+}

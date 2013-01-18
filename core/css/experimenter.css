@@ -1,0 +1,109 @@
+body {
+    background:none repeat scroll 0 0 #FFFFFF;
+    border:0 none;
+	font-family: Arial;
+}
+
+.exp-header {
+	height: 50px;
+	width: 98%;
+	font-size: 20px;
+	padding: 25px 10px 0px 10px;
+	margin: 1px;
+}
+
+.exp-header-active-label {
+	float: left;
+}
+
+.exp-header-active {
+	margin-left: 70px;
+}
+
+.selector-frame {
+	width: 230px;
+	margin: 15px 0px 0px 15px;
+	float: left;
+}
+
+.selector-label {
+	font-size: 14px;
+	width: 100px;
+	padding: 2px;
+	text-align: center;
+}
+
+.selector-button-list {
+	width: 200px;
+	margin: 5px;
+}
+
+.delete-item {
+	float: left;
+}
+
+#exp-content {
+	min-height: 550px;
+	min-width: 550px;
+	margin: 10px 30px 0px 250px;
+	border: solid black 1px;
+}
+
+#create-new {
+	text-align: center;
+}
+
+#template-name {
+	font-size: 32px;
+	border-style: none;
+	margin: 5px 0px 0px 5px;
+	background-color: #CCC;
+}
+
+.template-item {
+	padding: 3px 0px 3px 0px;
+	background-color: #F2F2F2;
+	border: #666666 1px solid;
+}
+
+.template-item-label {
+	margin-left: 15px;
+	text-align: center;
+	width: 100%;
+}
+
+.template-selected {
+	background-color: #CEF6F5;
+}
+
+.template-form-label {
+	float: left;
+}
+
+.template-form-item {
+	padding: 3px 0px 3px 0px;
+}
+
+.template-option {
+	font-size: 12px;
+	margin-left: 10px;
+}
+
+.cat-item-img {
+	margin: 10px 3px 3px 3px;
+	vertical-align: bottom;
+	max-width: 100px;
+	max-height: 30px;
+}
+
+#add-item-button {
+	text-align: center;
+	margin-left:auto;
+	margin-right:auto;
+	height: 50px;
+	width: 50px;
+}
+
+.erroritem {
+	border: red 1px dotted;
+}

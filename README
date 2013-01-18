@@ -1,0 +1,113 @@
+**********************************************************
+* project: Open Source, Web-based IAT
+* author: Winter Mason (winteram@yahoo-inc.com)
+* source: http://sourceforge.net/projects/implicitassoc/
+**********************************************************
+
+OVERVIEW:
+---------
+
+This is meant to be an easy-to-use implicit association test (see
+Greenwald, McGhee, & Schwartz, 1998) for use by interested psychologists.
+The input is a basic text file that defines the categories and the stimuli
+(or location for the stimuli if they are image files).  The flow of the
+test is driven by javascript, and participant responses are stored in a
+comma-delimited text file.  At the end of the test, a simple effect size is
+calculated to determine the participant's tendency to find two categories
+more congruent than the other two categories.
+
+
+REQUIREMENTS:
+-------------
+
+Server-side: PHP (with permission to write files in directory)
+Client-side: Javascript-enabled web browser
+
+
+USE:
+----
+
+1) copy the folder to a publicly accessible folder on your web server
+2) modify the file "IATname.inc":
+   a) set the variable $IATname to the name of the IAT (e.g. "Race" if it
+      were a Race IAT)
+   b) if you are (not) using images as stimuli, change $pictures to "true"
+      ("false")
+3) modify the file "input.txt":
+   - "catA" and "catB" are the target categories, "cat1" and "cat2" are the
+     association categories. DO NOT MODIFY THESE LABELS.
+   - Each category has 4 components:
+       1. "label" is what is displayed to the participant in the
+          instructions and during the task
+       2. "datalabel" is how the category is identified in the output
+       3. "itemtype" can be either "txt" or "img"
+       4. "items" are either the words to be displayed (if "itemtype" is
+          "txt") or the location of the image file to display (if "itemtype"
+          is "img")
+   - Make sure everything is surrounded by double quotes!
+4) Modify "writeFile.php": set the variable $base_dir to the directory
+   where you would like to keep the output
+5) Direct your browser to http://yourserver.com/implicitassoc/trunk/
+
+INCLUDED FILES:
+--------------
+
+Correct.jpg 
+  - A picture of a checkmark, to notify user if they have javascript enabled
+
+gInstruct1.html 
+gInstruct2.html
+gInstruct3.html 
+gInstruct4.html 
+gInstruct5.html 
+gInstruct6.html 
+gInstruct7.html 
+  - These are the instructions that are inserted into the frame before each
+    stage of the IAT
+
+iat.css 
+  - This file provides the CSS styling for the web page
+
+IAT.js 
+  - This is the javascript code for reading the input file, creating the
+    pages, listening to user responses, and recording the user responses
+
+IAT.php 
+  - This is the main page that contains the frame in which the stimuli and
+    instructions appear
+
+IATname.inc 
+  - This defines the name of the IAT (e.g., "Race IAT") presented in the
+    instructions
+
+index.php 
+  - This is the entry point for the user that requires the user to enable
+    javascript to continue
+
+input.txt 
+  - This is the file that defines the stimuli and category labels for the
+    IAT
+
+instruct1.php
+  - This is the first page of instructions before the IAT begins,
+    explaining what comes next
+
+instruct2.php 
+  - This is the second page of instructions,
+
+jquery.min.js 
+  - Required jQuery library.  See http://jquery.com
+
+spinner.gif 
+  - An animated gif of a "spinner", displayed while calculating IAT score
+    for participant
+
+summarizeIAT.py
+  - A python file that collates the output of multiple participants into a single file.  Each row in the output is one participant, what association is being tested, and their IAT score (D).
+
+writeFile.php
+  - This file is called to write the output file to the server
+
+Wrong.jpg 
+  - A picture of an 'X' that appears if the participant choose the
+    incorrect category

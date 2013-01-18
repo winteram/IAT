@@ -1,0 +1,85 @@
+<form>
+<div class="template-form-item ui-corner-all">
+	<input type="text" id="template-name" name="template-name"></input>
+</div>
+<div class="template-form-item">
+	<div id="IAT-type" class="template-option">
+		<input type="radio" id="IAT-standard" name="IAT-type" value="two"/><label for="IAT-standard">Standard IAT</label>
+		<input type="radio" id="IAT-single" name="IAT-type" value="one" /><label for="IAT-single">Single Category IAT</label>
+	</div>
+</div>
+<div class="template-form-item">
+	<div id="show-results" class="template-option">
+		<input type="radio" id="show" name="show-results" value="show"/><label for="show">Present Results</label>
+		<input type="radio" id="noshow" name="show-results" value="noshow"/><label for="noshow">Do Not Present Results</label>
+	</div>
+</div>
+<div class="template-form-item">
+	<div id="category-selector" class="ui-tabs">
+		<ul>
+			<li><a href="#tabs-1">Category A</a></li>
+			<li><a href="#tabs-2">Category B</a></li>
+			<li><a href="#tabs-3">Category 1</a></li>
+			<li><a href="#tabs-4">Category 2</a></li>
+		</ul>
+		<!-- Labels, Data Label, Item Type, Items (img previews) -->
+		<div id="tabs-1">
+			<input type="hidden" name="tabs1-shown" value="true">
+			<div id='tabs1-catlabel' class="template-form-item ui-corner-all">
+				<input type="text" id="tabs1-catlabel-input" name="tabs1-catlabel-input"/><label for="tabs1-catlabel-input">Category Label</label>
+			</div>
+			<div id='tabs1-datalabel' class="template-form-item ui-corner-all">
+				<input type="text" id="tabs1-datalabel-input" name="tabs1-datalabel-input"/><label for="tabs1-datalabel-input">Data Label</label>
+			</div>
+			<div id='tabs1-toi-selector' class='template-option'>
+				<input type="radio" id="tabs1-txt" name="tabs1-txt" value="txt"/><label for="tabs1-txt">Text</label>
+				<input type="radio" id="tabs1-img" name="tabs1-img" value="img"/><label for="tabs1-img">Images</label>
+			</div>
+			<div id='tabs1-catitems' class="catitems"></div>
+		</div>
+		<div id="tabs-2">
+			<input type="hidden" name="tabs2-shown" value="true">
+			<div id='tabs2-catlabel' class="template-form-item ui-corner-all">
+				<input type="text" id="tabs2-catlabel-input" name="tabs2-catlabel-input"/><label for="tabs2-catlabel-input">Category Label</label>
+			</div>
+			<div id='tabs2-datalabel' class="template-form-item ui-corner-all">
+				<input type="text" id="tabs2-datalabel-input" name="tabs2-datalabel-input"/><label for="tabs2-datalabel-input">Data Label</label>
+			</div>
+			<div id='tabs2-toi-selector' class='template-option'>
+				<input type="radio" id="tabs2-txt" name="tabs2-txt" value="txt"/><label for="tabs2-txt">Text</label>
+				<input type="radio" id="tabs2-img" name="tabs2-img" value="img" /><label for="tabs2-img">Images</label>
+			</div>
+			<div id='tabs2-catitems' class="catitems"></div>
+		</div>
+		<div id="tabs-3">
+			<input type="hidden" name="tabs3-shown" value="true">
+			<div id='tabs3-catlabel'>
+				<input type="text" id="tabs3-catlabel-input" name="tabs3-catlabel-input"/><label for="tabs3-catlabel-input">Category Label</label>
+			</div>
+			<div id='tabs3-datalabel'>
+				<input type="text" id="tabs3-datalabel-input" name="tabs3-datalabel-input"/><label for="tabs3-datalabel-input">Data Label</label>
+			</div>
+			<div id='tabs3-toi-selector' class='template-option'>
+				<input type="radio" id="tabs3-txt" name="tabs3-txt" value="txt"/><label for="tabs3-txt">Text</label>
+				<input type="radio" id="tabs3-img" name="tabs3-img" value="img" /><label for="tabs3-img">Images</label>
+			</div>
+			<div id='tabs3-catitems' class="catitems"></div>
+		</div>
+		<div id="tabs-4">
+			<input type="hidden" name="tabs4-shown" value="true">
+			<div id='tabs4-catlabel'>
+				<input type="text" id="tabs4-catlabel-input" name="tabs4-catlabel-input"/><label for="tabs4-catlabel-input">Category Label</label>
+			</div>
+			<div id='tabs4-datalabel'>
+				<input type="text" id="tabs4-datalabel-input" name="tabs4-datalabel-input"/><label for="tabs4-datalabel-input">Data Label</label>
+			</div>
+			<div id='tabs4-toi-selector' class='template-option'>
+				<input type="radio" id="tabs4-txt" name="tabs4-txt" value="txt"/><label for="tabs4-txt">Text</label>
+				<input type="radio" id="tabs4-img" name="tabs4-img" value="img" /><label for="tabs4-img">Images</label>
+			</div>
+			<div id='tabs4-catitems' class="catitems"></div>
+		</div>
+	</div>
+	<input type='button' style='color:green' value='Save' onclick='validateTemplate();'>
+</div>
+</form>
