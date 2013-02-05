@@ -40,6 +40,17 @@ body {
 
 .delete-item {
 	float: left;
+	cursor: pointer;
+}
+
+.save-item {
+	float: right;
+	margin-right: 5px;
+	cursor: pointer;
+}
+
+.ui-icon:hover {
+	background-image: url(overcast/images/ui-icons_3383bb_256x240.png);
 }
 
 #exp-content {
@@ -50,7 +61,7 @@ body {
 }
 
 #create-new {
-	text-align: center;
+
 }
 
 #template-name {
@@ -62,18 +73,38 @@ body {
 
 .template-item {
 	padding: 3px 0px 3px 0px;
-	background-color: #F2F2F2;
-	border: #666666 1px solid;
+	background-color: #f5f5f5;
+	border: #eee 1px solid;
+	font: 11pt Verdana;
+}
+
+.template-item:not(.template-selected):hover {
+	color: #599FCF;
+}
+
+.template-selected {
+	background-color: #FCFCD2;
+	border-color: #aaa;
+}
+
+.template-unsaved {
+	background-color: #fcfc98 !important;
+}
+
+.template-unsaved .template-item-label {
+	font-weight: bold;
+}
+
+.template-unsaved .template-item-label:after {
+	content: "*";
+	font-weight: bold;
 }
 
 .template-item-label {
 	margin-left: 15px;
 	text-align: center;
 	width: 100%;
-}
-
-.template-selected {
-	background-color: #CEF6F5;
+	cursor: default;
 }
 
 .template-form-label {
@@ -107,3 +138,24 @@ body {
 .erroritem {
 	border: red 1px dotted;
 }
+
+.ui-dialog {
+	width: 40% !important;
+}
+
+.cat-AB {
+	-moz-border-radius-topleft: 6px; -webkit-border-top-left-radius: 6px; -khtml-border-top-left-radius: 6px; border-top-left-radius: 6px;
+	-moz-border-radius-topright: 6px; -webkit-border-top-right-radius: 6px; -khtml-border-top-right-radius: 6px; border-top-right-radius: 6px;
+}
+
+
+
+.cat-12 {
+	background: #3383BB;
+	color: #ccc !important;
+	-moz-border-radius-topleft: 6px; -webkit-border-top-left-radius: 6px; -khtml-border-top-left-radius: 6px; border-top-left-radius: 6px;
+	-moz-border-radius-topright: 6px; -webkit-border-top-right-radius: 6px; -khtml-border-top-right-radius: 6px; border-top-right-radius: 6px;
+}
+
+.ui-state-hover .cat-12 { color: #ddd !important; }
+.ui-state-active .cat-12 {	color: #fff !important; }
