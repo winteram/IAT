@@ -32,13 +32,29 @@ $newTemplate = array(
 );
 
 //update active and available templates
-function updateActive($newActive=NULL)
+function updateActive($optArr=NULL)
 {
-	$active_str = file_get_contents("../templates/active.txt");
+	$active_str = file_get_contents('../templates/active.txt');
 	$active = json_decode($active_str);
-	if(!is_null($newActive))
+	
+	// When "op" = "setActive", calls updateActive with 'newActive' option set
+	if(isset($optArr) && isset($optArr['newActive']))
 	{
-		$active->active = $newActive;
+		$active->active = $optArr['newActive'];
+	}
+	else if(isset($optArr['op']) && $optArr['op'] == 'saveTemplate')
+	{
+		if($active->active == $optArr['oldName'])
+		{
+			$active->active = $optArr['newName'];
+		}
+	}
+	else if(isset($optArr['op']) && $optArr['op'] == 'deleteTemplate')
+	{
+		if($active->active == $optArr['oldName'])
+		{
+			$active->active = 'Empty';
+		}
 	}
 	
 	$available = array();
@@ -52,7 +68,7 @@ function updateActive($newActive=NULL)
 	    }
 	    closedir($handle);
 	}
-	sort($available);
+	natcasesort($available);
 	$active->available = $available;
 	
 	$active_fh = fopen("../templates/active.txt", 'w');
@@ -131,8 +147,9 @@ if( isset($_REQUEST['op']) )
 			break;
 		case 'setActive':
 			if( isset($_REQUEST['template']) )
-			{		
-				updateActive($_REQUEST['template']);
+			{
+				$optArr = array('newActive' => $_REQUEST['template']);		
+				updateActive($optArr);
 				echo "success";
 			}
 			else
@@ -346,7 +363,10 @@ if( isset($_REQUEST['op']) )
 								
 								// check if old name is currently active, if so, change?
 								// also need to rename in active.txt
-								updateActive();
+								$optArr = array('oldName'	=> $_REQUEST['oldname'],
+												'newName'	=> $form['template-name'],
+												'op'		=> 'saveTemplate');
+								updateActive($optArr);
 							}
 							$inputfile = fopen("../templates/".$form["template-name"]."/input.txt", 'w');
 							fwrite($inputfile, $json_template);
@@ -406,7 +426,10 @@ if( isset($_REQUEST['op']) )
 						unlink($folder_dir."/input.txt");
 					}
 					rmdir($folder_dir);
-					updateActive();
+					
+					$optArr = array('oldName'	=> $_REQUEST['template'],
+									'op'		=> 'deleteTemplate');
+					updateActive($optArr);
 				}
 				else
 				{

@@ -1,4 +1,4 @@
-<form>
+<form id="template-form">
 <div class="template-form-item ui-corner-all">
 	<input type="text" id="template-name" name="template-name"></input>
 </div>
@@ -16,17 +16,21 @@
 </div>
 <div class="template-form-item">
 	<div id="category-selector" class="ui-tabs">
-		<ul>
-			<li><a href="#tabs-1">Category A</a></li>
-			<li><a href="#tabs-2">Category B</a></li>
-			<li><a href="#tabs-3">Category 1</a></li>
-			<li><a href="#tabs-4">Category 2</a></li>
+		<ul id="category-list">
+			<li><a href="#tabs-1" class="cat-AB">Category A</a></li>
+			
+			<li><a href="#tabs-2" class="cat-AB">Category B</a></li>
+			
+			<li style="margin-left: 3%"></li>
+			<li><a href="#tabs-3" class="cat-12">Category 1</a></li>
+			
+			<li><a href="#tabs-4" class="cat-12">Category 2</a></li>
 		</ul>
 		<!-- Labels, Data Label, Item Type, Items (img previews) -->
 		<div id="tabs-1">
 			<input type="hidden" name="tabs1-shown" value="true">
 			<div id='tabs1-catlabel' class="template-form-item ui-corner-all">
-				<input type="text" id="tabs1-catlabel-input" name="tabs1-catlabel-input"/><label for="tabs1-catlabel-input">Category Label</label>
+				<input type="text" id="tabs1-catlabel-input" class="catlabel-input" name="tabs1-catlabel-input"/><label for="tabs1-catlabel-input">Category Label</label>
 			</div>
 			<div id='tabs1-datalabel' class="template-form-item ui-corner-all">
 				<input type="text" id="tabs1-datalabel-input" name="tabs1-datalabel-input"/><label for="tabs1-datalabel-input">Data Label</label>
@@ -40,7 +44,7 @@
 		<div id="tabs-2">
 			<input type="hidden" name="tabs2-shown" value="true">
 			<div id='tabs2-catlabel' class="template-form-item ui-corner-all">
-				<input type="text" id="tabs2-catlabel-input" name="tabs2-catlabel-input"/><label for="tabs2-catlabel-input">Category Label</label>
+				<input type="text" id="tabs2-catlabel-input" class="catlabel-input" name="tabs2-catlabel-input"/><label for="tabs2-catlabel-input">Category Label</label>
 			</div>
 			<div id='tabs2-datalabel' class="template-form-item ui-corner-all">
 				<input type="text" id="tabs2-datalabel-input" name="tabs2-datalabel-input"/><label for="tabs2-datalabel-input">Data Label</label>
@@ -54,7 +58,7 @@
 		<div id="tabs-3">
 			<input type="hidden" name="tabs3-shown" value="true">
 			<div id='tabs3-catlabel'>
-				<input type="text" id="tabs3-catlabel-input" name="tabs3-catlabel-input"/><label for="tabs3-catlabel-input">Category Label</label>
+				<input type="text" id="tabs3-catlabel-input" class="catlabel-input" name="tabs3-catlabel-input"/><label for="tabs3-catlabel-input">Category Label</label>
 			</div>
 			<div id='tabs3-datalabel'>
 				<input type="text" id="tabs3-datalabel-input" name="tabs3-datalabel-input"/><label for="tabs3-datalabel-input">Data Label</label>
@@ -68,7 +72,7 @@
 		<div id="tabs-4">
 			<input type="hidden" name="tabs4-shown" value="true">
 			<div id='tabs4-catlabel'>
-				<input type="text" id="tabs4-catlabel-input" name="tabs4-catlabel-input"/><label for="tabs4-catlabel-input">Category Label</label>
+				<input type="text" id="tabs4-catlabel-input" class="catlabel-input" name="tabs4-catlabel-input"/><label for="tabs4-catlabel-input">Category Label</label>
 			</div>
 			<div id='tabs4-datalabel'>
 				<input type="text" id="tabs4-datalabel-input" name="tabs4-datalabel-input"/><label for="tabs4-datalabel-input">Data Label</label>
@@ -80,6 +84,6 @@
 			<div id='tabs4-catitems' class="catitems"></div>
 		</div>
 	</div>
-	<input type='button' style='color:green' value='Save' onclick='validateTemplate();'>
+	<input type='button' style='color:green' value='Save' id='save-template'>
 </div>
 </form>
