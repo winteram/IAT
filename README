@@ -40,3 +40,17 @@ USE:
    the images to the folder "IAT/[template name]/img"
 
 4) Direct participants to your IAT! (e.g., [yourserver.com]/IAT)
+
+
+OUTPUT:
+-------
+
+The output files are in the "output" folder within the template folder for the active IAT.  
+The columns are as follows:
+
+Trial #
+Round #
+Category Label
+Category Index (which item within the category)
+Errors
+Reaction Time (in milliseconds)
