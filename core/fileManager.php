@@ -171,14 +171,14 @@ if( isset($_REQUEST['op']) )
 				    }
 					else {
 						$errors = "";
-						// template name is set, has only alphanumeric characters, and is < 30 characters
+						// template name is set and is < 30 characters
 						if(!isset($form["template-name"]) ||
-							strlen($form["template-name"]) > 30 || 
-							$form["template-name"] != preg_replace('/[^A-Za-z0-9]+/','',$form["template-name"]))
+							strlen($form["template-name"]) > 30 /*|| 
+							$form["template-name"] != preg_replace('/[^A-Za-z0-9]+/','',$form["template-name"])*/)
 						{
 							$errors .= "<li class='error-item'>";
-							$errors .= "Please input a valid template name (less than 30 alphanumeric characters only) ";
-							$errors .= " </li>";
+							$errors .= "Please input a valid template name (less than 30 characters)";
+							$errors .= "</li>";
 						}
 						else
 						{
@@ -358,10 +358,10 @@ if( isset($_REQUEST['op']) )
 							// else if template name has changed
 							else if ($_REQUEST['oldname'] != $form["template-name"])
 							{	
-								// check for template-name conflict happened earlier, so this is safe
+								// checked for template-name conflict happened earlier, so this is safe
 								rename("../templates/".$_REQUEST['oldname'],"../templates/".$form["template-name"]);
 								
-								// check if old name is currently active, if so, change?
+								// check if old name is currently active, if so, change
 								// also need to rename in active.txt
 								$optArr = array('oldName'	=> $_REQUEST['oldname'],
 												'newName'	=> $form['template-name'],

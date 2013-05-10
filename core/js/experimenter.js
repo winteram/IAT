@@ -142,7 +142,7 @@ var FileMgr = {
 	 */
 	setForceCache: function(fileArr)
 	{
-		if($.isArray(fileArr)) 
+		if($.isArray(fileArr))
 		{
 			this.defCache = this.defCache.concat(fileArr);
 		}
@@ -219,6 +219,12 @@ function readyTemplates(input)
 		$(".template-item").on("click",".save-item",function()
 		{
 			saveTemplate(repaintTemplates,showSaveError);
+		});
+		
+		// Attach event to delete icon
+		$(".selector-frame").on("click",".delete-item",function(e) {
+			e.stopPropagation();
+			verifyDelete($(this).parent().data("templateid"));
 		});
 		
 		// Attach unload event handler that stores unsaved template data changes
@@ -302,8 +308,7 @@ function renderTemplateViewerItem(templateId)
 	
 	$(".active-selector").append("<div id='" + templateId + 
 		"' data-templateid='" + templateId + 
-		"' data-ischanged='false' class='template-item user-template template-button'><span class=\"delete-item ui-icon ui-icon-trash\" title=\"Delete\" onclick='verifyDelete(\"" + 
-		templateId + "\")'></span><span class='template-item-label'>" + templateId + "</span></div>");
+		"' data-ischanged='false' class='template-item user-template template-button'><span class=\"delete-item ui-icon ui-icon-trash\" title=\"Delete\"></span><span class='template-item-label'>" + templateId + "</span></div>");
 }
 
 function showTemplates(input)
@@ -396,69 +401,65 @@ function verifyDelete(templateId)
 	}
 }
 
-function selectTemplate()
+function selectTemplate(e)
 {
 	var $this = $(this);
-	
+
 	// Prevent reloading of current template so
 	// altered data not overwritted
-	if($this.hasClass("template-selected")) {
-		return false;
-	}
-	
-	// Prompt user to save changes to active template
-	// before changing to selected template
-	var currTemplateObj = $(".template-selected");
-	var currTemplate = currTemplateObj.text();
-	
-	// If new, unsaved template, adjust its title
-	if(currTemplateObj.attr("id") == "create-new")
-	{
-		currTemplate = ($("#template-name").val() != "Empty")	? $("#template-name").val()
-																: "Untitled";
-	}
-	
-	if(currTemplateObj.hasClass("template-unsaved"))
-	{	
-		$("#alert-window").html("Do you want to save changes to \"<b>" + currTemplate +"</b>\"?")
-		.dialog({
-			title: "<h3>Unsaved Changes</h3>",
-			modal: true,
-			close: clearUnsavedTemplate,
-			buttons: {
-				Save: function()
-				{
-					saveTemplate(function(data)
+	if(!$this.hasClass("template-selected")) {	
+		// Prompt user to save changes to active template
+		// before changing to selected template
+		var currTemplateObj = $(".template-selected");
+		var currTemplate = currTemplateObj.text();
+		
+		// If new, unsaved template, adjust its title
+		if(currTemplateObj.attr("id") == "create-new")
+		{
+			currTemplate = ($("#template-name").val() != "Empty")	? $("#template-name").val()
+																	: "Untitled";
+		}
+		
+		if(currTemplateObj.hasClass("template-unsaved"))
+		{	
+			$("#alert-window").html("Do you want to save changes to \"<b>" + currTemplate +"</b>\"?")
+			.dialog({
+				title: "<h3>Unsaved Changes</h3>",
+				modal: true,
+				close: clearUnsavedTemplate,
+				buttons: {
+					Save: function()
 					{
-						repaintTemplates(data);
+						saveTemplate(function(data)
+						{
+							repaintTemplates(data);
+							changeTemplate({
+								templateObj: $this,
+								isReloadActive: true
+							});
+							$("#alert-window").dialog("close"); // Note the closure :: $(this) != $("#alert-window") 
+						},showSaveError);
+					},
+					Discard: function()
+					{
+						currTemplateObj.find(".template-item-label").html(currTemplateObj.data("templateid")); // Restore original template name
 						changeTemplate({
 							templateObj: $this,
-							isReloadActive: true
+							isReloadActive: false
 						});
-						$("#alert-window").dialog("close"); // Note the closure :: $(this) != $("#alert-window") 
-					},showSaveError);
-				},
-				Discard: function()
-				{
-					currTemplateObj.find(".template-item-label").html(currTemplateObj.data("templateid")); // Restore original template name
-					changeTemplate({
-						templateObj: $this,
-						isReloadActive: false
-					});
-					$(this).dialog("close");
+						$(this).dialog("close");
+					}
 				}
-			}
-		});
+			});
+		}
+		else
+		{
+			changeTemplate({
+				templateObj: $this,
+				isReloadActive: false
+			});
+		}	
 	}
-	else
-	{
-		changeTemplate({
-			templateObj: $this,
-			isReloadActive: false
-		});
-	}
-	
-
 }
 
 function changeTemplate(options)
