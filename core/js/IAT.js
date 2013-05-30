@@ -1,6 +1,7 @@
 template = {};
 sub = '';
 
+
 function randomString(length) {
 	var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     var result = '';
@@ -11,6 +12,15 @@ function randomString(length) {
 // Loads the input file and starts introduction
 function initialize()
 {	
+	//change by TS
+	//takes subID from URL location.search property
+	//expects something like http://www.server.com/IAT/index.php?subID=12345
+	//subID value can be alphanumeric
+	//subID is case sensitive, ie subid does not work
+	//if no query is present, or if subID is empty (e.g., ?subID= ), subID defaults to 999+random string
+	var tempsubID = getQueryVariable('subID');
+	if (tempsubID == "") {tempsubID="999"+randomString(5)}
+	
 	// get active template & load data into global variable
 	$.getJSON("templates/active.txt", function(input) {
 		document.title = input.active + " IAT";
@@ -18,10 +28,27 @@ function initialize()
 			template = data;
 			$.get("core/instruct0.html", function(data) {
 				$("#instructions").html(data);
-				$("#subID").val(randomString(10));
+				$("#subID").val(tempsubID);
 			});
 		});
 	});
+	
+}
+
+//copied from http://stackoverflow.com/questions/2090551/parse-query-string-in-javascript by TS
+function getQueryVariable(variable) 
+{
+    var query = window.location.search.substring(1);
+    var vars = query.split('&');
+    for (var i = 0; i < vars.length; i++) 
+	{
+        var pair = vars[i].split('=');
+        if (decodeURIComponent(pair[0]) == variable) 
+		{
+            return decodeURIComponent(pair[1]);
+        }
+    }
+    return(999999);
 }
 
 function loadInstructions(stage)
@@ -43,6 +70,8 @@ function loadInstructions(stage)
 						$("#andpics").html(" and pictures ");
 					}
 				});
+				alert("your subID is " + sub + " and valid");
+				//alert(template.nextURL);
 			}
 			else
 			{
@@ -306,9 +335,13 @@ function instructionPage()
 		}
 		else
 		{
-		    resulttext = "<div style='text-align:center;padding:20px'>Thanks for participating!</div>";
+		    resulttext = "<div style='text-align:center;padding:20px'><img src='core/spinner.gif'></div>";
 		    $("#picture_frame").html(resulttext);
+			
 		}
+
+		//crude hack for forwarding by TS
+		window.location.href = template.nextURL + sub;
 	}
 	else
 	{
