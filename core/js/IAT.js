@@ -12,24 +12,33 @@ function randomString(length) {
 // Loads the input file and starts introduction
 function initialize()
 {	
-	//change by TS
-	//takes subID from URL location.search property
-	//expects something like http://www.server.com/IAT/index.php?subID=12345
-	//subID value can be alphanumeric
-	//subID is case sensitive, ie subid does not work
-	//if no query is present, or if subID is empty (e.g., ?subID= ), subID defaults to 999+random string
-	var tempsubID = getQueryVariable('subID');
-	if (tempsubID == "") {tempsubID="999"+randomString(5)}
-	
+
+	var tempsubID = randomString(10);
+
 	// get active template & load data into global variable
 	$.getJSON("templates/active.txt", function(input) {
 		document.title = input.active + " IAT";
 		$.getJSON("templates/"+input.active+"/input.txt", function(data) { 
 			template = data;
-			$.get("core/instruct0.html", function(data) {
+
+			//change by TS if running==embedded in input.txt
+			//takes subID from URL location.search property
+			//expects something like http://www.server.com/IAT/index.php?subID=12345
+			//if no query is present, or if subID is empty (e.g., ?subID= ), subID defaults to 999+random string
+			if (template.running == "embedded") 
+			{
+				tempsubID = getQueryVariable('subID');
+				if (tempsubID == "") {tempsubID="99999"+randomString(5)}
+			}
+
+			//change here to make instruct0 more flexible
+			//to go with standard instruct0.html, just leave running=""
+			$.get("core/instruct0"+template.running+".html", function(data) {
 				$("#instructions").html(data);
 				$("#subID").val(tempsubID);
 			});
+
+			
 		});
 	});
 	
@@ -70,8 +79,8 @@ function loadInstructions(stage)
 						$("#andpics").html(" and pictures ");
 					}
 				});
-				alert("your subID is " + sub + " and valid");
-				//alert(template.nextURL);
+				//alert("your subID is " + sub + " and valid");
+				//alert("you will proceed to " + template.nextURL);
 			}
 			else
 			{
@@ -341,7 +350,10 @@ function instructionPage()
 		}
 
 		//crude hack for forwarding by TS
-		window.location.href = template.nextURL + sub;
+		if (template.running == "embedded") 
+		{
+			window.location.href = template.nextURL + sub;
+		}
 	}
 	else
 	{
