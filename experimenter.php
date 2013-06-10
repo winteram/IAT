@@ -28,7 +28,7 @@
 			</div>
 		</div>
 		<div class='selector-button-list'>
-			<input type="button" id="set-active" name="set-active" onClick="setActive()" value="Set Active" disabled="disabled">
+			<input type="button" id="set-active" name="set-active" value="Set Active">
 			<!-- <input type="button" id="view-stats" name="view-stats"onclick="viewStats()" value="View Statistics" disabled="disabled"> -->
 		</div>
 	</div>
