@@ -1,1 +1,1 @@
-{"active":"Science","available":["Empty","Race","Science"]}
+{"active":"shorttest","available":{"1":"Empty","3":"Race","2":"Science","0":"shorttest","4":"Single indentities"}}

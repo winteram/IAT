@@ -54,3 +54,22 @@ Category Label
 Category Index (which item within the category)
 Errors
 Reaction Time (in milliseconds)
+
+CHANGES IN THIS FORK BY TS:
+---------------------------
+
+The first page is reduced to just the button; the subject ID field is still there but hidden.
+The subject ID is filled from the search property of the location, specified like this:
+http://www.server.com/IAT/index.php?subID=12345
+subID value can be alphanumeric
+subID is case sensitive, ie subid does not work
+if no query is present, or if subID is empty (e.g., ?subID= ), subID defaults to 999+random string
+
+After the final screen, the browser automatically navigates to a new location.
+This new location is specified in a property in the input.txt of your template 
+Note that I did not change the template editor yet, so you have to put this in by hand
+The property to add there is "nextURL":"http://xxx.qualtrics.com/SE/?SID=...&subID="
+The participant ID is then appended to this, so it can be easily used in Qualtrics with an embedded data field called subID
+e.g.: {"name":"shorttest","showResult":"noshow","IATtype":"two","nextURL":"http://oslopsych.qualtrics.com/SE/?SID=SV_5ndq0H0yAzLKYx7&subID=",...
+
+
