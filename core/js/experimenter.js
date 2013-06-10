@@ -182,6 +182,7 @@ function initExperimenter()
 	$(function()
 	{
 		$("input[type=button]").button();
+		$("#set-active").click(setActive);
 	});
 	
 	
