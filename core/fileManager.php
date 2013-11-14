@@ -31,6 +31,8 @@ $newTemplate = array(
 	)
 );
 
+
+
 //update active and available templates
 function updateActive($optArr=NULL)
 {
@@ -97,17 +99,6 @@ function getstats($completed)
 	}
 }
 
-// write output of test to output directory
-function writeoutput($output)
-{
-	$sub = isset( $_REQUEST['subject'] ) ? $_REQUEST['subject'] : 'unknown2' ;
-	$src = isset( $_REQUEST['src'] ) ? $_REQUEST['src'] : 'HUH' ;
-
-	$data = $_REQUEST["data"]; $randtxt = date('Y-m-d-H-s-');
-	$fh = fopen($folder_dir. $src . "_" . $sub . '-' . $randtxt . '.txt', 'w');
-	fwrite($fh, $data);
-	fclose($fh);
-}
 
 
 // High level interface: process command sent from javascript
@@ -306,6 +297,7 @@ if( isset($_REQUEST['op']) )
 													else
 													{
 														array_push($newform["cat".$catnames[$i-1]]["items"], $form["cat".$catnames[$i-1].$j."-txt"]);
+														
 													}
 												}
 											}
@@ -371,7 +363,8 @@ if( isset($_REQUEST['op']) )
 							$inputfile = fopen("../templates/".$form["template-name"]."/input.txt", 'w');
 							fwrite($inputfile, $json_template);
 							fclose($inputfile);
-							echo "success";
+// 							echo "success";
+							echo $json_template;
 						}
 						// else
 						else
@@ -465,7 +458,8 @@ if( isset($_REQUEST['op']) )
 			if( isset($_REQUEST['template']) )
 			{
 				if( isset($_REQUEST['data']) )
-				{
+				{	
+					
 					$folder_dir = "../templates/".$_REQUEST['template']."/output/";
 
 					$sub = isset( $_REQUEST['subject'] ) ? $_REQUEST['subject'] : 'unknown2' ;
@@ -475,6 +469,9 @@ if( isset($_REQUEST['op']) )
 					$fh = fopen($folder_dir. $_REQUEST['template'] . "-" . $sub . '-' . $datetxt . '.txt', 'w');
 					fwrite($fh, $data);
 					fclose($fh);
+					
+					
+									
 				}
 				else
 				{
@@ -485,6 +482,172 @@ if( isset($_REQUEST['op']) )
 			{
 				echo "Error 5.0: template name not specified";
 			}
+			break;
+			
+		case 'writedatabase':
+			if( isset($_REQUEST['template']) )
+				{
+					if( isset($_REQUEST['data']) )
+					{	
+						
+						$dsn = "mysql:host=localhost";
+						try {
+							$pdo = new PDO($dsn, "IATexp555","");
+						}
+						catch(PDOException $e) { 
+                			echo 'ERROR: ' . $e->getMessage();
+                			break;
+            			}
+            			
+            			$dsn = "mysql:host=localhost";
+						$pdo = new PDO($dsn, "IATexp555","");
+						$pdo->query("USE `IAT555`;");
+						
+						$sub = isset( $_REQUEST['subject'] ) ? $_REQUEST['subject'] : 'unknown2' ; //Subject Identifier
+						$data = $_REQUEST["data"]; 
+						$tempname = isset( $_REQUEST['template'] ) ? $_REQUEST['template'] : 'Templateunknown' ; //Science etc
+						$catindex = $_POST['catindex'];
+						$category = $_POST['category'];
+						$datai = $_POST['datai'];
+						$dataj = $_POST['dataj'];
+						$errors = $_POST['errors'];
+						$mseconds = $_POST['mseconds'];
+						
+						
+						$sqltemplateid = $pdo->query("select * from Template where TemplateName='$tempname' Order By Templateid Desc Limit 0,1")->fetchColumn(); 
+						$queryinsert = $pdo->prepare("INSERT INTO Result(Templateid,TemplateName,Blocki,Trialj,Category,ItemIndex,Errors,Mseconds,User) VALUES ('$sqltemplateid','$tempname','$datai','$dataj','$category','$catindex','$errors','$mseconds','$sub');");
+						$queryinsert->execute();
+						}
+				}
+				
+			break;
+		case 'checkdb':
+		if( isset($_REQUEST['template']) )
+				{
+						
+						$dsn = "mysql:host=localhost";
+						try {
+							$pdo = new PDO($dsn, "IATexp555","");
+							echo 'success';
+						}
+						catch(PDOException $e) { 
+                			echo 'ERROR';
+            			}
+            		
+            	}
+		
+			break;
+		case 'writeinput':
+			if( isset($_REQUEST['template']) )
+				{
+				if (isset($_REQUEST['form']) )
+					{
+						
+
+            			$dsn = "mysql:host=localhost";
+            			$pdo = new PDO($dsn, "IATexp555","");
+						$pdo->query("USE `IAT555`;");
+						$templatename=$_REQUEST['template'];
+						$showresult=$_REQUEST['showresult'];
+						$queryinsert = $pdo->prepare("INSERT INTO INSERT INTO Item(Items) VALUES ('$showresult');");
+						$queryinsert->execute();
+						$queryinsert = $pdo->prepare("INSERT INTO Template(TemplateName,ShowResult,IATtype) VALUES ('$templatename','$showresult','2');");
+						$queryinsert->execute();
+						$lasttempid=$pdo->lastInsertId();
+						
+						$catnames = array("A","B","1","2");
+						$form = array();
+						parse_str($_POST['form'], $form);
+						for ($i=1;$i<=4;$i++)
+						{
+							$categoryname=$catnames[$i-1];
+							if(isset($form["tabs".$i."-txt"])) {
+								$istxt="txt";
+								}
+							else {
+								$istxt="img";
+								}
+							$z=$form["tabs".$i."-catlabel-input"];
+							$dl=$form["tabs".$i."-datalabel-input"];
+							
+							$nRows = $pdo->query("select count(*) from Category where Categoryname='$categoryname' and DataLabel='$dl' and ItemType='$istxt' and Label='$z'")->fetchColumn(); 
+							
+							if ($nRows > 0) {
+								$categoryid = $pdo->query("Select Categoryid from Category where Categoryname='$categoryname' and DataLabel='$dl' and ItemType='$istxt' and Label='$z'")->fetchColumn(); 
+								$queryinsert = $pdo->prepare("INSERT INTO Template_has_category(Template_Templateid,Category_Categoryid) VALUES ('$lasttempid','$categoryid');");
+								$queryinsert->execute();
+								
+								for ($j=0; $j<=$form["max-cat".$catnames[$i-1]]; $j++)
+										{
+										if(array_key_exists("cat".$catnames[$i-1].$j."-txt", $form))
+										{
+										$oo=$form["cat".$catnames[$i-1].$j."-txt"];
+										$nitemRows = $pdo->query("select count(*) from Item where Items='$oo'")->fetchColumn();
+										if ($nitemRows > 0) {
+											$itemid = $pdo->query("select Itemid from Item where Items='$oo'")->fetchColumn();
+											$ncatitemRows = $pdo->query("select count(*) from Category_has_item where Category_Categoryid='$categoryid' and Item_itemid='$itemid'")->fetchColumn();
+											if ($ncatitemRows <= 0) {
+												$queryinsert = $pdo->prepare("INSERT INTO Category_has_Item(Category_Categoryid,Item_Itemid) VALUES ('$categoryid','$itemid');"); 
+												$queryinsert->execute();}
+											}
+										else {
+											$nitemRows = $pdo->query("select count(*) from Item where Items='$oo'")->fetchColumn();
+											if ($nitemRows <= 0) {
+												$queryinsert = $pdo->prepare("INSERT INTO Item(Items) VALUES ('$oo');");
+												$queryinsert->execute();
+												$itemid = $pdo->query("select Itemid from Item where Items='$oo'")->fetchColumn();
+												$ncatitemRows = $pdo->query("select count(*) from Category_has_item where Category_Categoryid='$categoryid' and Item_itemid='$itemid'")->fetchColumn();
+												if ($ncatitemRows <= 0) {
+													$queryinsert = $pdo->prepare("INSERT INTO Category_has_Item(Category_Categoryid,Item_Itemid) VALUES ('$categoryid','$itemid');"); 
+													$queryinsert->execute(); }
+															}
+												}
+										}
+									}
+								}
+							else
+								{
+								$queryinsert = $pdo->prepare("INSERT INTO Category(CategoryName,DataLabel,ItemType,Label) VALUES ('$categoryname','$dl','$istxt','$z');");
+								$queryinsert->execute();
+								$lastcatid=$pdo->lastInsertId();
+								$queryinsert = $pdo->prepare("INSERT INTO Template_has_category(Template_Templateid,Category_Categoryid) VALUES ('$lasttempid','$lastcatid');");
+								$queryinsert->execute();
+								for ($j=0; $j<=$form["max-cat".$catnames[$i-1]]; $j++)
+										{
+										if(array_key_exists("cat".$catnames[$i-1].$j."-txt", $form))
+										{
+										$oo=$form["cat".$catnames[$i-1].$j."-txt"];
+										$nitemRows = $pdo->query("select count(*) from Item where Items='$oo'")->fetchColumn();
+										if ($nitemRows > 0) {
+											$itemid = $pdo->query("select Itemid from Item where Items='$oo'")->fetchColumn();
+											$ncatitemRows = $pdo->query("select count(*) from Category_has_item where Category_Categoryid='$lastcatid' and Item_itemid='$itemid'")->fetchColumn();
+											if ($ncatitemRows <= 0) {
+												$queryinsert = $pdo->prepare("INSERT INTO Category_has_Item(Category_Categoryid,Item_Itemid) VALUES ('$lastcatid','$itemid');"); 
+												$queryinsert->execute();}
+											}
+										else {
+											$nitemRows = $pdo->query("select count(*) from Item where Items='$oo'")->fetchColumn();
+											if ($nitemRows <= 0) {
+											$queryinsert = $pdo->prepare("INSERT INTO Item(Items) VALUES ('$oo');");
+											$queryinsert->execute();
+											$itemid = $pdo->query("select Itemid from Item where Items='$oo'")->fetchColumn();
+											$ncatitemRows = $pdo->query("select count(*) from Category_has_item where Category_Categoryid='$lastcatid' and Item_itemid='$itemid'")->fetchColumn();
+											if ($ncatitemRows <= 0) {
+												$queryinsert = $pdo->prepare("INSERT INTO Category_has_Item(Category_Categoryid,Item_Itemid) VALUES ('$lastcatid','$itemid');"); 
+												$queryinsert->execute(); }
+															}
+										}
+									}
+							  }
+						
+							
+						}
+						
+					}
+						
+				}
+			}
+				
 			break;
 	}	
 } 

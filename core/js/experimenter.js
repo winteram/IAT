@@ -1,6 +1,8 @@
 var templates = {};
 var catlistnames = ["catA","catB","cat1","cat2"];
 var catfullnames = ["Category A","Category B","Category 1","Category 2"];
+var arr = [];
+
 
 $.fn.hookToInput = function(selector)
 {
@@ -549,12 +551,31 @@ function renderTemplateForm(data)
 		$(this).attr("checked",true);
 	});
 	
+	// Enable buttons for saving to file or database
+// 	$( "#save-results" ).buttonset();
+// 	if(templates[templateId].saveResult == "file")
+// 	{
+// 		$("#file").attr("checked",true);
+// 		$("#save-results").buttonset('refresh');
+// 	}
+// 	else
+// 	{
+// 		$("#database").attr("checked",true);
+// 		$("#save-results").buttonset('refresh');
+// 	}
+// 	// Change on click
+// 	$( "#save-results :radio" ).click(function(e) {
+// 		$( "#save-results :radio" ).attr("checked",false);
+// 		$(this).attr("checked",true);
+// 	});
+	
 	var categoryTabs = $("#category-list a");
 	for(var j=1; j<5; j++)
 	{
 		// create references
 		tabname = "tabs" + j;
 		catname = catlistnames[j-1];
+		arr.push(catlistnames[j-1]);
 		
 		// Update category tab with name
 		$(categoryTabs.get(j - 1)).html(templates[templateId][catname].label);
@@ -885,7 +906,6 @@ function setActive()
 				alert(data);
 			}
 	});
-	
 }
 
 function saveTemplate(successCallback, errorCallback)
@@ -902,13 +922,14 @@ function saveTemplate(successCallback, errorCallback)
 		oldName = templates[$(".template-selected").data("templateid")].name;
 	}
 	var formString = $("form").serialize();
-	// console.log(formString);
 
 	FileMgr.post(FileMgr.getFileMgrPath(), 
 		{ "op": "saveTemplate", "template": templateId, "oldname": oldName, "form": formString}, 
-		function(saveData) {		
-			if (saveData == "success")
+		function(saveData) {	
+			returnedData = JSON.parse(saveData);
+			if (returnedData.name == templateId)
 			{
+				templates[templateId] = returnedData;
 				// Remove save icon from unsaved template viewer item
 				clearUnsavedTemplate();
 				
@@ -918,12 +939,16 @@ function saveTemplate(successCallback, errorCallback)
 				.data("templateid",templateId)
 				.attr("id",templateId);
 				
+				console.log(templates[templateId]);
+				
 				// Update template object with saved data
-				FileMgr.getJSON(FileMgr.getInputPath(templateId), function(templateData)
-				{
-					templates[templateId] = templateData;
-					successCallback(saveData);
-				});
+// 				FileMgr.getJSON(FileMgr.getInputPath(templateId), function(templateData)
+// 				{
+// 					templates[templateId] = templateData;
+// // 					console.log(templateId);
+// // 					console.log(templateData);
+// 					successCallback(saveData);
+// 				});
 			}
 			else if (saveData.slice(0,5) == "Error")
 			{
@@ -934,8 +959,23 @@ function saveTemplate(successCallback, errorCallback)
 				errorCallback(saveData);
 			}
 	});
+
+
+	var showresult;
+	showresult=templates[templateId].showResult;
+	FileMgr.post(FileMgr.getFileMgrPath(), 
+	{ "op": "checkdb", "template": templateId, "form": formString, "showresult": showresult }, 
+	function(checkdb) {
+	if(checkdb == "success")
+			{
+				FileMgr.post(FileMgr.getFileMgrPath(), 
+				{ "op": "writeinput", "template": templateId, "form": formString, "showresult": showresult });
+			}
+		});
 	
 }
+
+
 
 function loadCreateForm() {
 	// $(".template-selected").removeClass("template-selected");
@@ -959,6 +999,7 @@ function loadActiveStats(input)
 	// {"op":"getstats","root":input.root,"output":input.output},
 	// buildStatsPage);
 }
+
 
 function viewStats() {
 	// Get selected template

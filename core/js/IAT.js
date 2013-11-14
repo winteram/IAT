@@ -22,6 +22,7 @@ function initialize()
 			});
 		});
 	});
+	
 }
 
 function loadInstructions(stage)
@@ -116,6 +117,7 @@ function startIAT()
 	buildPage();
 	roundArray = initRounds();
     instructionPage();
+    
 }
 
 // Adds all images to page (initially hidden) so they are pre-loaded for IAT
@@ -299,7 +301,17 @@ function instructionPage()
 		$("#left_cat").html("");
 		$("#right_cat").html("");
 		$("#exp_instruct").html("<img src='core/spinner.gif'>");
-		WriteFile();
+		$.post("core/fileManager.php", { 'op':'checkdb', 'template':template.name }, 
+ 			function(checkdb) {
+				if(checkdb == "success")
+				{
+				WriteDatabase();
+				}
+				else
+				{
+				WriteFile();
+				}
+			});	
 		if(template.showResult == "show")
 		{
 		    calculateIAT();
@@ -533,6 +545,7 @@ function checkDemographics()
 // and passes it to writeFile.php to be written by the server
 function WriteFile()
 {
+	
 	var subject = sub;
 	subject = subject.length==0 ? "unknown" : subject;
 	var str = "";
@@ -545,13 +558,54 @@ function WriteFile()
 			str += roundArray[i][j].catIndex+",";
 			str += roundArray[i][j].errors+",";
 			str += (roundArray[i][j].endtime - roundArray[i][j].starttime)+"\n";
+			var catIndex=roundArray[i][j].catIndex;
+			var category=roundArray[i][j].category;
+			var datai=i;
+			var dataj=j;
+			var mseconds=(roundArray[i][j].endtime - roundArray[i][j].starttime);
+			
 		}
 	}
 	
+	
     $.post("core/fileManager.php", { 'op':'writeoutput', 'template':template.name, 
  			'subject': subject, 'data': str });	
+ 	
 	// notify user of success?
 }
+function WriteDatabase()
+{
+	
+	var subject = sub;
+	subject = subject.length==0 ? "unknown" : subject;
+	var str = "";
+	for (i=0; i<roundArray.length; i++)
+	{
+		for (j=0;j<roundArray[i].length;j++)
+		{
+			str += i + "," + j + ",";
+	        str += roundArray[i][j].category+",";
+			str += roundArray[i][j].catIndex+",";
+			str += roundArray[i][j].errors+",";
+			str += (roundArray[i][j].endtime - roundArray[i][j].starttime)+"\n";
+			var catIndex=roundArray[i][j].catIndex;
+			var category=roundArray[i][j].category;
+			var datai=i;
+			var dataj=j;
+			var mseconds=(roundArray[i][j].endtime - roundArray[i][j].starttime);
+			//$.post("core/fileManager.php", { 'op':'writedatabase', 'template':template.name, 
+ 			//'subject': subject, 'data': str,'catindex':catIndex, 'category':category, 'datai':datai });
+			$.post("core/fileManager.php", { 'op':'writedatabase', 'template':template.name, 
+ 			'subject': subject, 'data': str, 'datai':i, 'dataj':j,'category':roundArray[i][j].category, 'catindex':roundArray[i][j].catIndex,
+ 			'errors':roundArray[i][j].errors, 'mseconds':(roundArray[i][j].endtime - roundArray[i][j].starttime) });
+		}
+	}
+	
+ 	
+	// notify user of success?
+}
+
+
 
 // This monitors for keyboard events
 function keyHandler(kEvent)
