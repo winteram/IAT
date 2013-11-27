@@ -2,6 +2,7 @@
 * project: Open Source, Web-based IAT
 * authors: Winter Mason (m@winteram.com)
 * 	   Steven Allon 
+*	   Pinar Ozturk
 * source: https://github.com/winteram/IAT
 **********************************************************
 
@@ -25,6 +26,7 @@ REQUIREMENTS:
 -------------
 
 Server-side: PHP (with permission to write files in directory)
+	     (optional) MySQL with root access
 Client-side: Javascript-enabled web browser
 
 
@@ -33,13 +35,15 @@ USE:
 
 1) copy the folder to a publicly accessible folder on your web server
 
-2) create a new version of the IAT using the experimenter tool (Direct your
+2) from a shell prompt (i.e., Terminal in Mac or Linux, PuTTy in Windows) type 'sh setup.sh'
+
+3) create a new version of the IAT using the experimenter tool (Direct your
    browser to [yourserver.com]/IAT/experimenter.php)
 
-3) [only necessary if IAT uses images] After creating the template, upload
+4) [only necessary if IAT uses images] After creating the template, upload
    the images to the folder "IAT/[template name]/img"
 
-4) Direct participants to your IAT! (e.g., [yourserver.com]/IAT)
+5) Direct participants to your IAT! (e.g., [yourserver.com]/IAT)
 
 
 OUTPUT:
