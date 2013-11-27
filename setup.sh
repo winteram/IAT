@@ -7,7 +7,8 @@ case $character in
     	python ./tfile.py
         ;;
     D ) echo "Setting up database.."
-        php cdb.php
+        echo "You will be prompted for the MySQL password for 'root'"
+        source createdb.sh
         ;;
     * ) echo "Not valid"
 esac

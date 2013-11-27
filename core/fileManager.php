@@ -492,7 +492,7 @@ if( isset($_REQUEST['op']) )
 						
 						$dsn = "mysql:host=localhost";
 						try {
-							$pdo = new PDO($dsn, "IATexp555","");
+							$pdo = new PDO($dsn, "IATexp555","myIAT");
 						}
 						catch(PDOException $e) { 
                 			echo 'ERROR: ' . $e->getMessage();
@@ -500,7 +500,7 @@ if( isset($_REQUEST['op']) )
             			}
             			
             			$dsn = "mysql:host=localhost";
-						$pdo = new PDO($dsn, "IATexp555","");
+						$pdo = new PDO($dsn, "IATexp555","myIAT");
 						$pdo->query("USE `IAT555`;");
 						
 						$sub = isset( $_REQUEST['subject'] ) ? $_REQUEST['subject'] : 'unknown2' ; //Subject Identifier
@@ -527,7 +527,7 @@ if( isset($_REQUEST['op']) )
 						
 						$dsn = "mysql:host=localhost";
 						try {
-							$pdo = new PDO($dsn, "IATexp555","");
+							$pdo = new PDO($dsn, "IATexp555","myIAT");
 							echo 'success';
 						}
 						catch(PDOException $e) { 
@@ -545,7 +545,7 @@ if( isset($_REQUEST['op']) )
 						
 
             			$dsn = "mysql:host=localhost";
-            			$pdo = new PDO($dsn, "IATexp555","");
+            			$pdo = new PDO($dsn, "IATexp555","myIAT");
 						$pdo->query("USE `IAT555`;");
 						$templatename=$_REQUEST['template'];
 						$showresult=$_REQUEST['showresult'];
