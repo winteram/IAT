@@ -525,14 +525,27 @@ if( isset($_REQUEST['op']) )
 		if( isset($_REQUEST['template']) )
 				{
 						
-						$dsn = "mysql:host=localhost";
-						try {
-							$pdo = new PDO($dsn, "IATexp555","myIAT");
-							echo 'success';
-						}
-						catch(PDOException $e) { 
-                			echo 'ERROR';
+						$filepath=realpath(dirname(getcwd()));
+						$filename = $filepath. '/input-text';
+						if (file_exists($filename)) {
+    						echo "The file $filename exists";
+    						//error_log(print_r("The file $filename exists", TRUE));
+						} else 
+							{
+    						echo "The file $filename does not exist";
+    						//error_log(print_r("The file $filename does not exist", TRUE));
+							$dsn = "mysql:host=localhost";
+							try {
+								$pdo = new PDO($dsn, "IATexp555","myIAT");
+								//error_log(print_r("Database exists", TRUE));
+								echo 'success';
+							}
+							catch(PDOException $e) { 
+                				echo 'ERROR';
+                				//error_log(print_r("Database doesn't exist", TRUE));
+            				}
             			}
+            		
             		
             	}
 		
