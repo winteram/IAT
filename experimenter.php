@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>IAT Experimenter Page</title>	
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link type="text/css" href="core/css/overcast/jquery-ui-1.8.18.custom.css" rel="stylesheet" />
 <link type="text/css" href="core/css/experimenter.css" rel="stylesheet" />	
 <script type="text/javascript" src="core/js/jquery-1.7.1.min.js"></script>

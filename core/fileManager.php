@@ -165,7 +165,7 @@ if( isset($_REQUEST['op']) )
 						// template name is set and is < 30 characters
 						if(!isset($form["template-name"]) ||
 							strlen($form["template-name"]) > 30 /*|| 
-							$form["template-name"] != preg_replace('/[^A-Za-z0-9]+/','',$form["template-name"])*/)
+							$form["template-name"] != preg_replace('/[^A-Za-z\p{Ll}\p{Lt}\p{Cyrillic}0-9]+/','',$form["template-name"])*/)
 						{
 							$errors .= "<li class='error-item'>";
 							$errors .= "Please input a valid template name (less than 30 characters)";
@@ -221,7 +221,7 @@ if( isset($_REQUEST['op']) )
 								// category name
 								if(!isset($form["tabs".$i."-catlabel-input"]) ||
 									strlen($form["tabs".$i."-catlabel-input"]) > 30 || 
-									$form["tabs".$i."-catlabel-input"] != preg_replace('/[^A-Za-z0-9\-\(\)\$\#\@\? ]+/', '', $form["tabs".$i."-catlabel-input"]))
+									$form["tabs".$i."-catlabel-input"] != preg_replace('/[^A-Za-z\p{Ll}\p{Lt}\p{Cyrillic}0-9\-\(\)\$\#\@\? ]+/u', '', $form["tabs".$i."-catlabel-input"]))
 								{
 									$errors .= "<li class='error-item'>";
 									$errors .= "Please input a valid category label for Category " . $catnames[$i-1];
@@ -235,7 +235,7 @@ if( isset($_REQUEST['op']) )
 								// data label
 								if(!isset($form["tabs".$i."-datalabel-input"]) ||
 									strlen($form["tabs".$i."-datalabel-input"]) > 3 || 
-									$form["tabs".$i."-datalabel-input"] != preg_replace('/[^A-Za-z0-9]+/','',$form["tabs".$i."-datalabel-input"]))
+									$form["tabs".$i."-datalabel-input"] != preg_replace('/[^A-Za-z\p{Ll}\p{Lt}\p{Cyrillic}0-9]+/u','',$form["tabs".$i."-datalabel-input"]))
 								{
 									$errors .= "<li class='error-item'>";
 									$errors .= "Please input a valid data label for Category " . $catnames[$i-1] . " (less than 3 alphanumeric characters)";
@@ -280,14 +280,14 @@ if( isset($_REQUEST['op']) )
 												if(array_key_exists("cat".$catnames[$i-1].$j."-txt", $form))
 												{
 													// check if has ".jpg", etc.
-													if( preg_match("/\.[A-Za-z]{2,4}/",$form["cat".$catnames[$i-1].$j."-txt"]))
+													if( preg_match("/\.[A-Za-z\p{Ll}\p{Lt}\p{Cyrillic}]{2,4}/u",$form["cat".$catnames[$i-1].$j."-txt"]))
 													{
 														$errors .= "<li class='error-item'>";
 														$errors .= "The text input, '" . $form["cat".$catnames[$i-1].$j."-txt"];
 														$errors .= "' in Category " . $catnames[$i-1] . " appears to be a file name.";
 														$errors .= " </li>";
 													}
-													else if ( preg_match("/[^A-Za-z0-9\-\(\)\$\#\@\? ]+/", $form["cat".$catnames[$i-1].$j."-txt"]))
+													else if ( preg_match("/[^A-Za-z\p{Ll}\p{Lt}\p{Cyrillic}0-9\-\(\)\$\#\@\? ]+/u", $form["cat".$catnames[$i-1].$j."-txt"]))
 													{
 														$errors .= "<li class='error-item'>";
 														$errors .= "The text input, '" . $form["cat".$catnames[$i-1].$j."-txt"];
