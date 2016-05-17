@@ -5,6 +5,7 @@ require_once('locations.php');
 <html>
 <head>
 <title><?php echo $IATname; ?> IAT Survey</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <style type="text/css"> @import "core/css/iat.css";</style>	
 <script type="text/javascript" src="core/js/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="core/js/IAT.js"></script>
