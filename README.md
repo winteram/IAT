@@ -67,7 +67,7 @@ Prerequisites: [git-scm](https://git-scm.com/), [docker](https://www.docker.com/
 Inside *nix terminal or windows command-line, cd into a directory of yours and:
 
 ```bash
-git clone https://github.com/winteram/IAT
+git clone https://github.com/pazams/IAT.git
 cd IAT
 docker build -t my-iat .
 docker run -d -p 3000:80 --name my-running-iat my-iat
