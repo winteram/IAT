@@ -61,7 +61,6 @@ The columns are as follows:
 * Reaction Time (in milliseconds)
 
 
-
 Instruction to run locally:
 ---------------------------
 
