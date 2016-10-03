@@ -83,5 +83,5 @@ now, in your browser navgiate to these urls:
 
 Note this setup is for local environment.
 
-For production environment, additional security measures are needed. It is recommended to deny direct access some php files. Read more about it [here](http://stackoverflow.com/questions/2679524/block-direct-access-to-a-file-over-http-but-allow-php-script-access).
+For production environment, additional security measures are needed. It is recommended to deny direct access to some php files. Read more about it [here](http://stackoverflow.com/questions/2679524/block-direct-access-to-a-file-over-http-but-allow-php-script-access).
 Also it is advised to remove `experimenter.php` in production, or add authentication layer.
