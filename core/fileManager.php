@@ -532,7 +532,7 @@ if( isset($_REQUEST['op']) )
     						//error_log(print_r("The file $filename exists", TRUE));
 						} else 
 							{
-    						echo "The file $filename does not exist";
+//    						echo "The file $filename does not exist";
     						//error_log(print_r("The file $filename does not exist", TRUE));
 							$dsn = "mysql:host=localhost";
 							try {
